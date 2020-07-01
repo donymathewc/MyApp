@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using myapp.API.Data;
 
 namespace myapp.API.Controllers
-{   [Authorize]
+{
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
@@ -16,15 +17,15 @@ namespace myapp.API.Controllers
         private readonly DataContext _context;
         public ValuesController(DataContext context)
         {
-           _context = context;
+            _context = context;
 
         }
         // GET api/values
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
-           var values=await _context.Values.ToListAsync();
-           return Ok(values);
+            var values = await _context.Values.ToListAsync();
+            return Ok(values);
         }
 
         // GET api/values/5
@@ -32,8 +33,8 @@ namespace myapp.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetValue(int id)
         {
-           var value=await _context.Values.FirstOrDefaultAsync(x=>x.Id==id);
-           return Ok(value);
+            var value = await _context.Values.FirstOrDefaultAsync(x => x.Id == id);
+            return Ok(value);
         }
 
         // POST api/values

@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using myapp.API.Models;
 
 namespace myapp.API.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
@@ -24,6 +26,7 @@ namespace myapp.API.Controllers
         {
             _config = config;
             _repo = repo;
+
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDto userForRegisterDto)
@@ -40,8 +43,9 @@ namespace myapp.API.Controllers
             var createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
             return StatusCode(201);
         }
-
+  
         [HttpPost("login")]
+
         public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
@@ -61,7 +65,7 @@ namespace myapp.API.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddMinutes(10),
                 SigningCredentials = creds
 
             };
@@ -73,5 +77,7 @@ namespace myapp.API.Controllers
                 token = tokenHandler.WriteToken(token)
             });
         }
+
+     
     }
 }
