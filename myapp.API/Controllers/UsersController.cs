@@ -23,7 +23,7 @@ namespace myapp.API.Controllers
             _repo = repo;
             _mapper = mapper;
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
@@ -31,7 +31,7 @@ namespace myapp.API.Controllers
             var userToReturn = _mapper.Map<IEnumerable<UserForDetailsDto>>(users);
             return Ok(userToReturn);
         }
-
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {

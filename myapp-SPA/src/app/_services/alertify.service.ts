@@ -31,6 +31,6 @@ warning(message: string) {
   alertify.warning(message);
 }
 message(message: string) {
-  alertify.nessage(message);
+  alertify.message(message);
 }
 }
