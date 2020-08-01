@@ -24,6 +24,14 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
 import { MemberListResolver } from './_resolvers/member-list.resolver';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberEditResolver } from './_resolvers/member-edit.resolver';
+import { AlertifyService } from './_services/alertify.service';
+import { AuthGuard } from './_guards/auth.guard';
+import { UserService } from './_services/user.service';
+import { PreventUnsavedChanges } from './_guards/prevent-unsavedchanges.guard';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 
@@ -41,7 +49,9 @@ export function tokenGetter(){
       ListsComponent,
       MessagesComponent,
       MemberCardComponent,
-      MemberDetailsComponent
+      MemberDetailsComponent,
+      MemberEditComponent,
+      PhotoEditorComponent
 
    ],
    imports: [
@@ -53,6 +63,7 @@ export function tokenGetter(){
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
+      FileUploadModule,
       JwtModule.forRoot({
          config: {
             tokenGetter,
@@ -65,8 +76,14 @@ export function tokenGetter(){
    providers: [
       AuthService,
       ErrorInterceptorProvider,
+      AlertifyService,
+      AuthGuard,
+      UserService,
       MemberDetailResolver,
-      MemberListResolver
+      MemberListResolver,
+      MemberEditResolver,
+      PreventUnsavedChanges
+
    ],
    bootstrap: [
       AppComponent
