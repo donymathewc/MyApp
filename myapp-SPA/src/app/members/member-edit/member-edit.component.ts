@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-member-edit',
-  templateUrl:'./member-edit.component.html',
+  templateUrl: './member-edit.component.html',
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
@@ -27,7 +27,9 @@ photoUrl: string;
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data.user;
+
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser(){

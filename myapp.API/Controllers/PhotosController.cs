@@ -75,7 +75,7 @@ namespace myapp.API.Controllers
                 }
             }
 
-            photoForCreationDto.Url = uploadResult.Uri.ToString();
+            photoForCreationDto.Url = uploadResult.Url.ToString();
             photoForCreationDto.PublicId = uploadResult.PublicId;
             var photo = _mapper.Map<Photo>(photoForCreationDto);
             if (!userFromRepo.Photos.Any(u => u.IsMain))
@@ -115,5 +115,42 @@ namespace myapp.API.Controllers
 
             return BadRequest("Could not set photo to main ");
         }
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeletePhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var user = await _repo.GetUser(userId);
+            if (!user.Photos.Any(p => p.Id == id))
+                return Unauthorized();
+
+            var photoFromRepo = await _repo.GetPhoto(id);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("Cant delete delte your main photo ");
+            if(photoFromRepo.PublicId!=null)
+            {
+                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+
+                var result = _cloudinary.Destroy(deleteParams);
+                if (result.Result == "ok")
+                {
+                    _repo.Delete(photoFromRepo);
+                }
+
+            }
+            else
+            {
+                _repo.Delete(photoFromRepo);
+            }
+          
+
+            if (await _repo.SaveAll())
+                return Ok();
+            return BadRequest("Failed to delete photo");
+        }
+
     }
 }
