@@ -41,9 +41,9 @@ login(model: any)
 }
 
 
-register(model: any)
+register(user: User)
 {
-  return this.http.post(this.baseurl + 'register', model);
+  return this.http.post(this.baseurl + 'register', user);
 }
 loggedIn(){
   const token = localStorage.getItem('token');
