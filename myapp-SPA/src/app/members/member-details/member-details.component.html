@@ -10,11 +10,11 @@
             </div>
             <div>
                 <strong>Last Active: </strong>
-                <p> {{user?.lastActive}}</p>
+                <p> {{user.lastActive | timeago}}</p>
             </div>
             <div>
                 <strong>Member Since: </strong>
-                <p> {{user?.created}}</p>
+                <p> {{user?.created | date}}</p>
             </div>
         </div>
         <div class="card-footer">
@@ -29,7 +29,7 @@
         <div class="tab-panel">
             <tabset class= "member-tabset">
                 <tab heading="About {{user?.knownAs}}">
-                    <h4>Descriotion</h4>
+                    <h4>Description</h4>
                     <p>{{user?.introduction}}</p>
                     <h4>Looking For</h4>
                     <p>{{user?.lookingFor}}</p>
